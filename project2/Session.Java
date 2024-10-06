@@ -28,10 +28,7 @@ public class Session{
             this.logout = null;
         }
         else if(!login.getUsername().equals(logout.getUsername())){
-                throw new IllegalArgumentException("Invalid pair of records: usernames do not match!")
-        }
-        else if(!login.getTerminal().equals(logout.getTerminal())){
-                throw new IllegalArgumentException("Invalid pair of records: terminals do not match!")
+                throw new IllegalArgumentException("Invalid pair of records: usernames do not match!");
         }
         else{
             this.login = login;
@@ -51,7 +48,7 @@ public class Session{
     * @return The login time of the Session object.
     */
     public Date getLoginTime(){
-        return this.login.getTime()
+        return this.login.getTime();
     }
     /** 
     * Returns the logout time of the Session object.
@@ -77,7 +74,7 @@ public class Session{
         if(logout == null){
             return -1;
         }
-        return this.login.getLogintime() - this.logout.getLogoutTime();
+        return this.logout.getTime().getTime() - this.login.getTime().getTime();
     }
     
     /**
@@ -86,9 +83,9 @@ public class Session{
     */
     @Override
     public String toString(){
-        String line1 = String.format("      %s, terminal %d, duration %t", getUsername(), getTerminal(), getDuration());
-        String line2 = String.format("  logged in: %t", getLoginTime());
-        String line3 = String.format("  logged out: %t", getLogout());
+        String line1 = String.format("      %s, terminal %d, duration %tF %<tT", this.getUsername(), this.getTerminal(), this.getDuration());
+        String line2 = String.format("  logged in: %tF %<tT", this.login.getTime());
+        String line3 = String.format("  logged out: %tF %<tT", this.logout.getTime());
         return line1 + "\n" + line2 +"\n" + line3;
     }
 }

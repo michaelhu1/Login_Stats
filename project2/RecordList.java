@@ -101,5 +101,4 @@ public class RecordList extends ArrayList<Record>{
         return new Session(lastLogin, lastLogout); // If no logout, the Session constructor will handle it
     }
 
-    } 
 }     
