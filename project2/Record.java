@@ -28,6 +28,9 @@ public class Record{
     * @throws IllegalArgumentException if terminal value is not a positive integer.
     */
     public Record(int terminal, boolean login, String username, Date time) throws IllegalArgumentException{
+        if (terminal <= 0) {
+            throw new IllegalArgumentException("Terminal value is invalid");
+        }
         this.terminal = terminal;
         this.login = login;
         this.username = username;
@@ -45,20 +48,14 @@ public class Record{
     * @return true if the Record is login.
     */
     public boolean isLogin(){
-        if(login == true){
-            return true;
-        }
-        return false;
+        return login;
     }
     /**
     * Returns true if the Record is a logout.
     * @return true if the Record is a logout.
     */
     public boolean isLogout(){
-        if(login == false){
-            return true;
-        }
-        return false;
+        return !login;
     }
     /**
     * Returns the username of this Record object.

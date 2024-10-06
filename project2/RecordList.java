@@ -18,7 +18,7 @@ public class RecordList extends ArrayList<Record>{
     * default constructor that creates an empty RecordList object.
     */
     public RecordList(){
-        
+        super();
     } 
 
     /** 
@@ -30,10 +30,34 @@ public class RecordList extends ArrayList<Record>{
     * @throws IllegalArgumentException if user is a null or empty string.
     */
     public Session getFirstSession(String user){
-    }
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+        if (user.isEmpty()) {
+            throw new IllegalArgumentException("User cannot be empty");
+        }
+        Record firstLogin = null;
+        Record firstLogout = null;
 
+        for (Record record : this) {
+            if (record.getUsername().equals(user)) {
+                if (record.isLogin()) {
+                    if (firstLogin == null || record.getTime().before(firstLogin.getTime())) {
+                        firstLogin = record;
+                    }
+                } else if (record.isLogout()) {
+                    if (firstLogout == null || record.getTime().before(firstLogout.getTime())) {
+                        firstLogout = record;
+                    }
+                }
+            }
+        }
 
-    
+        if (firstLogin == null) {
+            throw new NoSuchElementException("No session found for user: " + user);
+        }
+
+        return new Session(firstLogin, firstLogout); // If no logout, the Session constructor will handle it
     }
 
     /** 
@@ -45,8 +69,37 @@ public class RecordList extends ArrayList<Record>{
     * @throws IllegalArgumentException if user is a null or empty string.
     */
     public Session getLastSession(String user){
-        // TODO: Implement this method.
-        return null;
+        
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+        if (user.isEmpty()) {
+            throw new IllegalArgumentException("User cannot be empty");
+        }
+
+        Record lastLogin = null;
+        Record lastLogout = null;
+
+        for (Record record : this) {
+            if (record.getUsername().equals(user)) {
+                if (record.isLogin()) {
+                    if (lastLogin == null || record.getTime().after(lastLogin.getTime())) {
+                        lastLogin = record;
+                    }
+                } else if (record.isLogout()) {
+                    if (lastLogout == null || record.getTime().after(lastLogout.getTime())) {
+                        lastLogout = record;
+                    }
+                }
+            }
+        }
+
+        if (lastLogin == null) {
+            throw new NoSuchElementException("No session found for user: " + user);
+        }
+
+        return new Session(lastLogin, lastLogout); // If no logout, the Session constructor will handle it
+    }
 
     } 
 }     
